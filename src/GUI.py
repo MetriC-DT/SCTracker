@@ -12,9 +12,11 @@ class GUI():
     button_width = 15
     database = database()
 
-    def __init__(self, file_path):
+    def __init__(self, active_folder):
+        self.active_folder = active_folder
         self.set_layout()
     
+
     def set_layout(self):
         TextLabel = lambda key: sg.Text(text=key, key=key, size=(self.first_column_width, self.row_height), font=self.font, justification="right")
         SingleLineInput = lambda key: sg.InputText(default_text="", key=key, font=self.font, size=(self.second_column_width, self.row_height))
@@ -44,25 +46,31 @@ class GUI():
             [TextLabel("length"), SingleLineInput('lengthinput')],
             [TextLabel("notes"), SingleLineInput('notesinput')],
             [TextLabel("path"), SingleLineInput('pathinput'), sg.FolderBrowse(target="pathinput", size=(self.button_width, self.row_height), font="Arial 12")],
-            [TextLabel(""), EnterButton("commit"), EnterButton("clear")]
+            [TextLabel(""), EnterButton('commit')]
         ]
     
+
     def run(self):
         window = sg.Window(self.appname, self.layout)
         while True:
             event, values = window.read()
             if event is None:
                 break
+            elif event == 'commit':
+                print('commit')
             else:
                 self.parse_event(event, values)        
         
         self.database.close()
         window.close()
     
+
     def parse_event(self, event, values):
         if event == "commit":
-            print("Committing")
-        elif event == "clear":
-            print("clear")
+            self.commit(values)
         else:
             print(event, values)
+
+    
+    def commit(self, values):
+        print("committing", values)

@@ -1,5 +1,5 @@
 # SCTracker
-Personal Replay tracker for SC2
+Personal Replay tracker for SC2, inspired by Quasarprintf's spreadsheet
 
 # Columns
 * Game Number
