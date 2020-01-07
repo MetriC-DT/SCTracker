@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 import sc2reader
-from src.database import database
+from SCTracker.database import database
 from sc2reader.factories import SC2Factory
 
 class GUI():
@@ -9,7 +9,7 @@ class GUI():
     first_column_width = 15
     second_column_width = 40
     row_height = 1
-    button_width = 15
+    button_width = 19
     database = database()
 
     def __init__(self, active_folder):
@@ -46,7 +46,7 @@ class GUI():
             [TextLabel("length"), SingleLineInput('lengthinput')],
             [TextLabel("notes"), SingleLineInput('notesinput')],
             [TextLabel("path"), SingleLineInput('pathinput'), sg.FolderBrowse(target="pathinput", size=(self.button_width, self.row_height), font="Arial 12")],
-            [TextLabel(""), EnterButton('commit')]
+            [TextLabel(""), EnterButton('commit'), EnterButton('load latest')]
         ]
     
 
@@ -68,6 +68,8 @@ class GUI():
     def parse_event(self, event, values):
         if event == "commit":
             self.commit(values)
+        elif event == 'load latest':
+            print('loading latest replay file')
         else:
             print(event, values)
 
