@@ -2,12 +2,13 @@ import sqlite3
 
 class database():
     filename = 'replays.db'
-    table = 'replays'
+    replays_table = 'replays'
+    build_order_table = 'builds'
 
     def __init__(self):
         self.connection = sqlite3.connect(self.filename)
         self.cursor = self.connection.cursor()
-        self.create_table()
+        self.create_tables()
 
     def commit(self):
         self.connection.commit()
@@ -15,12 +16,32 @@ class database():
     def close(self):
         self.connection.close()
 
-    def execute(self, string):
+    def get_data(self, string):
         self.cursor.execute(string)
         return self.cursor.fetchall()
 
-    def create_table(self):
-        execute_string = "CREATE TABLE IF NOT EXISTS " + self.table + """
+
+    def add_replay_entry(self, values):
+        print("adding replay entry")
+        
+        inserted_values = list()
+        for key in values:
+            if len(key) >= 5 and key[len(key) - len('input'):] == 'input':
+                inserted_values.append(values[key])
+
+        execute_string = 'INSERT INTO ' + self.replays_table + ' VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
+        self.cursor.execute(execute_string, inserted_values)
+        self.commit()
+    
+
+    def add_build_entry(self, build):
+        build[0] = int(build[0])
+        self.cursor.execute('INSERT INTO ' + self.build_order_table + ' VALUES (?, ?, ?);', (build[0], build[1], build[2]))
+        self.commit()
+        print('added new build to table')
+
+    def create_tables(self):
+        execute_string = "CREATE TABLE IF NOT EXISTS " + self.replays_table + """
             (
                 gamenumber INTEGER,
                 datetime DATETIME,
@@ -35,9 +56,9 @@ class database():
                 opponentrace TEXT,
                 opponentclan TEXT,
                 map TEXT,
-                win INTEGER,
-                openersuccess INTEGER,
+                win DOUBLE,
                 gameplan INTEGER,
+                openersuccess DOUBLE,
                 buildorder TEXT,
                 reaction TEXT,
                 followup TEXT,
@@ -45,7 +66,15 @@ class database():
                 length INTEGER,
                 notes TEXT,
                 path TEXT
-            )"""
-        
+            );"""
         self.cursor.execute(execute_string)
+
+        execute_string = "CREATE TABLE IF NOT EXISTS " + self.build_order_table + """
+            (
+                number INTEGER,
+                opponent TEXT,
+                description TEXT
+            );"""
+        self.cursor.execute(execute_string)
+
         self.connection.commit()
