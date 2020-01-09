@@ -115,7 +115,7 @@ class GUI():
                 self.window.fill(values)
         
         except Exception as e:
-            sg.PopupError('Make sure you have both your replay folder and your player id set\n', e)
+            sg.PopupError('Make sure you have both your replay folder and your player id set\nError:', e)
 
     
     def clear(self, values):
@@ -181,6 +181,7 @@ class GUI():
             with open(config_file, 'r') as f:
                 config = json.load(f)
                 player_info = get_player_info(config[replay_folder_key])
+                print(player_info)
             
             if player_info:
                 with open(config_file, 'w') as f:
@@ -188,4 +189,4 @@ class GUI():
                     json.dump(config, f, indent=4)
 
         except Exception as e:
-            sg.PopupError(e)
+            sg.PopupError('set the replay folder first!\nError:', e)

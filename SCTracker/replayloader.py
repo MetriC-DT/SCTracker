@@ -36,16 +36,15 @@ def get_player_info(source_path):
             while p and popup == 'No':
                 p = next(highest, None)
                 popup = sg.popup_yes_no(f'Are you {p[0]} (id={str(p[1])})?\n\n(Your ID does not change, even after a name change)', font='Arial 12') if p else 'No'
-
-                # returns correct name and id
-                if popup == 'Yes':
-                    return {
-                        player_id_key: p[1],
-                        player_name_key: p[0]
-                    }
-                else:
-                    sg.popup_ok('Your ID has not been changed')
-                    return {}
+            
+            if popup == 'Yes':
+                return {
+                    player_id_key: p[1],
+                    player_name_key: p[0]
+                }
+            else:
+                sg.popup_ok('Your ID has not been changed')
+                return {}
         else:
             sg.popup_error(f'Cannot detect any SC2Replay files in:\n\n{source_path}')
             return {}
