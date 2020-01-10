@@ -20,7 +20,8 @@ def execute_file(filename, cursor):
 
     for command in commands:
         cursor.execute(command)
-        if('DROP TABLE' not in command.upper()):
-            return_value = cursor.fetchall()
+        result = cursor.fetchall()
+        if(result):
+            return_value = result
 
     return return_value
