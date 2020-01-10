@@ -149,7 +149,7 @@ class GUI():
         print('showing build list')
         data = self.database.get_data('SELECT * FROM ' + database.build_order_table + ' ORDER BY opponent;')
         headers = [description[0] for description in self.database.cursor.description]
-        sg.PopupScrolled(tabulate(data, headers=headers), title='build list', font='Courier 12', size=(None, None))
+        sg.PopupScrolled(tabulate(data, headers=headers), title='build list', font='Courier 12', size=(100, None))
 
 
     def set_replay_folder(self):
