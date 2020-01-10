@@ -43,6 +43,6 @@ Personal Replay tracker for SC2, inspired by Quasarprintf's spreadsheet
 
 ## Example build id
 
-| Opponent T/Z/P | forge/gate opening | macro/aggro | None/TC/SG/Robo | Number | Number|
+| Opponent T/Z/P | forge/gate opening | macro/aggro | None/TC/SG/Robo/Gates | Number | Number|
 |---------------|--------------------|-------------|-----------------|--------|-------|
 |1 2 3 | 0 1 | 0 1 | 0 1 2 3 4 | 0-9 | 0-9 |
