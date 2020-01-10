@@ -5,10 +5,11 @@ import functions
 import matplotlib.pyplot as plt
 import numpy as np
 
-connection = functions.get_database()
+connection = functions.get_database_copy(__file__)
 c = connection.cursor()
 
 salty_players = dict(functions.execute_file('salt.sql', c))
+functions.remove_db_copy(connection, __file__)
 
 plt.rcdefaults()
 fig, ax = plt.subplots()

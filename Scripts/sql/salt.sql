@@ -1,12 +1,46 @@
-CREATE TABLE salttable AS
-SELECT opponentrace AS saltyrace, COUNT(opponentrace) AS saltycount
-FROM replays
-WHERE instr(tags, 'salt') > 0
-GROUP BY opponentrace;
+DROP TABLE IF EXISTS saltyterran;
+DROP TABLE IF EXISTS saltyprotoss;
+DROP TABLE IF EXISTS saltyzerg;
+DROP TABLE IF EXISTS salttable;
 
-SELECT saltyrace, saltycount * 1.0 / COUNT(opponentrace)
+CREATE TABLE saltyterran AS
+SELECT replays.opponentrace AS saltyterran
+FROM replays
+WHERE instr(opponentrace, 'T') > 0 AND instr(tags, 'salt') > 0;
+
+CREATE TABLE saltyprotoss AS
+SELECT replays.opponentrace AS saltyprotoss
+FROM replays
+WHERE instr(opponentrace, 'P') > 0 AND instr(tags, 'salt') > 0;
+
+CREATE TABLE saltyzerg AS
+SELECT replays.opponentrace as saltyzerg
+FROM replays
+WHERE instr(opponentrace, 'Z') > 0 AND instr(tags, 'salt') > 0;
+
+CREATE TABLE salttable (
+    saltyrace TEXT,
+    saltycount INTEGER
+);
+
+INSERT INTO salttable(saltyrace, saltycount)
+SELECT 'Z', COUNT(saltyzerg)
+FROM saltyzerg;
+
+INSERT INTO salttable(saltyrace, saltycount)
+SELECT 'T', COUNT(saltyterran)
+FROM saltyterran;
+
+INSERT INTO salttable(saltyrace, saltycount)
+SELECT 'P', COUNT(saltyprotoss)
+FROM saltyprotoss;
+
+SELECT saltyrace, saltycount * 100.0 / COUNT(opponentrace)
 FROM salttable, replays
 WHERE saltyrace = opponentrace
 GROUP BY opponentrace;
 
+DROP TABLE IF EXISTS saltyterran;
+DROP TABLE IF EXISTS saltyprotoss;
+DROP TABLE IF EXISTS saltyzerg;
 DROP TABLE IF EXISTS salttable;
