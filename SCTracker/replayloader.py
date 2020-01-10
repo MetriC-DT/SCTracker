@@ -121,7 +121,12 @@ def get_players(replay, player_id, player_name):
     opponent_info.append((opponentclan_key, opponentclan_value))
 
     win_key = win + 'input'
-    win_value = 1 if player.result == 'Win' else 0
+    win_value = 0.5
+    if player.result == 'Win':
+        win_value = 1
+    elif opponent.result == 'Win':
+        win_value = 0
+
     player_info.append((win_key, win_value))
 
     return player_info + opponent_info
