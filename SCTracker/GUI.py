@@ -147,9 +147,16 @@ class GUI():
     
     def view_builds(self):
         print('showing build list')
-        data = self.database.get_data('SELECT * FROM ' + database.build_order_table + ' ORDER BY opponent, number;')
+        execute_string = """
+            SELECT number, opponent, description, 100*SUM(win)/COUNT(number) AS winrate
+            FROM builds, replays
+            WHERE number=gameplan AND (win=1 OR win=0)
+            GROUP BY number
+            ORDER BY opponent, number, winrate;
+        """
+        data = self.database.get_data(execute_string)
         headers = [description[0] for description in self.database.cursor.description]
-        sg.PopupScrolled(tabulate(data, headers=headers), title='build list', font='Courier 12', size=(100, None))
+        sg.PopupScrolled(tabulate(data, headers=headers), title='build list', font='Courier 12', size=(110, None))
 
 
     def set_replay_folder(self):
