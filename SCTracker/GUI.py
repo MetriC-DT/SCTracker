@@ -156,7 +156,9 @@ class GUI():
         """
         data = self.database.get_data(execute_string)
         headers = [description[0] for description in self.database.cursor.description]
-        sg.PopupScrolled(tabulate(data, headers=headers), title='build list', font='Courier 12', size=(110, None))
+        tabulated = tabulate(data, headers=headers)
+        longest_line_length = len(max(tabulated.split('\n'), key=len))
+        sg.PopupScrolled(tabulated, title='build list', font='Courier 12', size=(longest_line_length + 3, None))
 
 
     def set_replay_folder(self):

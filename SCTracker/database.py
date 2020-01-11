@@ -76,5 +76,4 @@ class database():
                 description TEXT
             );"""
         self.cursor.execute(execute_string)
-
         self.connection.commit()
