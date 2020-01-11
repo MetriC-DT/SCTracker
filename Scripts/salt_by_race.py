@@ -24,4 +24,7 @@ ax.set_yticklabels(races)
 ax.set_xlabel('Percent of race salty')
 ax.set_title('Salt By Race')
 
+for i, v in enumerate(salt):
+    ax.text(v + 1, i, str(v) + '%', va='center')
+
 plt.show()

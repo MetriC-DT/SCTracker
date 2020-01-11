@@ -9,7 +9,6 @@ from SCTracker.database import database
 from SCTracker.replayloader import *
 from SCTracker.constants import *
 
-
 class GUI():
     font = 'Arial 12'
     first_column_width = 15
@@ -56,8 +55,8 @@ class GUI():
             [TextLabel(notes), MultiLineInput(notes + 'input')],
             [TextLabel(path), SingleLineInput(path + 'input'), sg.FileBrowse(target='pathinput', size=(self.button_width, self.row_height), font=self.font, file_types=(('SC2Replay files', '*.SC2Replay'),))],
             [EmptySpace(self.first_column_width), EnterButton('commit replay'), EnterButton('load latest replay')],
-            [EmptySpace(self.first_column_width), EnterButton('add build'), EnterButton('view builds')],
-            [EmptySpace(self.first_column_width), EnterButton('set replay folder'),  EnterButton('view replay folder'), EnterButton('set player id')]
+            [EmptySpace(self.first_column_width), EnterButton('add build'), EnterButton('set replay folder'), EnterButton('set player id')],
+            [EmptySpace(self.first_column_width), EnterButton('view builds'), EnterButton('view replay folder'), EnterButton('view scripts')]
         ]
     
 
@@ -89,6 +88,8 @@ class GUI():
             self.view_replay_folder()
         elif event == 'set player id':
             self.set_player_id()
+        elif event == 'view scripts':
+            self.view_scripts()
         else:
             print(event, values)
 
@@ -148,7 +149,7 @@ class GUI():
     def view_builds(self):
         print('showing build list')
         execute_string = """
-            SELECT number, opponent, description, 100*SUM(win)/COUNT(number) AS winrate
+            SELECT number, opponent, description, SUM(win)/COUNT(number) AS winrate
             FROM builds, replays
             WHERE number=gameplan AND (win=1 OR win=0)
             GROUP BY number
@@ -199,3 +200,10 @@ class GUI():
 
         except Exception as e:
             sg.PopupError('set the replay folder first!\nError:', e)
+     
+    
+    def view_scripts(self):
+        print('viewing scripts')
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        scripts_dir = os.path.join(current_directory, '..', 'Scripts')
+        os.startfile(scripts_dir)

@@ -97,7 +97,7 @@ def get_players(replay, player_id, player_name):
     player_info.append((playermmr_key, playermmr_value))
 
     playerrace_key = playerrace + 'input'
-    playerrace_value = player.play_race[0] if player.play_race == player.pick_race else player.pick_race[0] + player.play_race[0]
+    playerrace_value = player.play_race[0]
     player_info.append((playerrace_key, playerrace_value))
 
     playerclan_key = playerclan + 'input'
@@ -113,12 +113,17 @@ def get_players(replay, player_id, player_name):
     opponent_info.append((opponentmmr_key, opponentmmr_value))
 
     opponentrace_key = opponentrace + 'input'
-    opponentrace_value = opponent.play_race[0] if opponent.play_race == opponent.pick_race else opponent.pick_race[0] + opponent.play_race[0]
+    opponentrace_value = opponent.play_race[0]
     opponent_info.append((opponentrace_key, opponentrace_value))
 
     opponentclan_key = opponentclan + 'input'
     opponentclan_value = opponent.clan_tag
     opponent_info.append((opponentclan_key, opponentclan_value))
+
+    tag_key = tags + 'input'
+    tag_value = '' if player.play_race[0] == player.pick_race[0] else 'RandomPlayer, '
+    tag_value += '' if opponent.play_race[0] == opponent.pick_race[0] else 'RandomOpponent, '
+    opponent_info.append((tag_key, tag_value))
 
     win_key = win + 'input'
     win_value = 0.5
