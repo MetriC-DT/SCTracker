@@ -2,16 +2,16 @@ import os
 import glob
 import sqlite3
 import shutil
+import time
 
 def get_database_copy(accessorfile):
-    this_directory = os.path.dirname(os.path.abspath(__file__))
+    this_directory = os.path.dirname(os.path.abspath('functions.py'))
     replays_directory = os.path.abspath(os.path.join(this_directory, '..'))
     replays_filepath = os.path.abspath(replays_directory + '/replays.db')
     copy_filepath = os.path.join(this_directory, accessorfile + '.db')
     copy = shutil.copyfile(replays_filepath, copy_filepath)
     connection = sqlite3.connect(copy_filepath)
     return connection
-
 
 def execute_file(sqlfilename, cursor):
     sql_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sql/')
@@ -33,8 +33,7 @@ def execute_file(sqlfilename, cursor):
     return return_value
 
 
-def remove_db_copy(connection, accessorfile):
+def remove_database_copy(connection, cursor, filename):
+    cursor.close()
     connection.close()
-    this_directory = os.path.dirname(os.path.abspath(accessorfile))
-    copy_filepath = os.path.join(this_directory, accessorfile + '.db')
-    os.remove(copy_filepath)
+    os.remove(os.path.abspath(filename + '.db'))
