@@ -24,6 +24,6 @@ ax.set_xlabel('Winrate')
 ax.set_title('My Winrate By Opponent Race')
 
 for i, v in enumerate(winrate):
-    ax.text(v + 1, i, str(v) + '%', va='center')
+    ax.text(v + 1, i, str(v)[:5] + '%', va='center')
 
 plt.show()

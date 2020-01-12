@@ -25,6 +25,6 @@ ax.set_xlabel('Percent of race salty')
 ax.set_title('Salt By Race')
 
 for i, v in enumerate(salt):
-    ax.text(v + 1, i, str(v) + '%', va='center')
+    ax.text(v + 1, i, str(v)[:5] + '%', va='center')
 
 plt.show()

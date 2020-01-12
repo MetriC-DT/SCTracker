@@ -1,5 +1,5 @@
 @echo off
-pip install -r requirements.txt
+pip install --user -r requirements.txt
 pip install -U git+https://github.com/ggtracker/sc2reader.git
 pip install pyinstaller
 
