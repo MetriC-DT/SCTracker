@@ -32,6 +32,7 @@ class database():
         execute_string = 'INSERT INTO ' + self.replays_table + ' VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);'
         self.cursor.execute(execute_string, inserted_values)
         self.commit()
+        print('replay successfully committed to database')
     
 
     def add_build_entry(self, build):
@@ -40,6 +41,7 @@ class database():
         self.commit()
         print('added new build to table')
 
+    
     def create_tables(self):
         execute_string = "CREATE TABLE IF NOT EXISTS " + self.replays_table + """
             (

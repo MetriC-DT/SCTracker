@@ -1,5 +1,5 @@
-from SCTracker import GUI
-from SCTracker.constants import config_file
+from src import GUI
+from src.constants import config_file
 
 if __name__ == "__main__":
     # creates file if it doesn't exist

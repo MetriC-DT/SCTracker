@@ -3,7 +3,7 @@ import sc2reader
 import glob
 from sc2reader.factories import SC2Factory
 import PySimpleGUI as sg
-from SCTracker.constants import *
+from src.constants import *
 from datetime import datetime
 
 

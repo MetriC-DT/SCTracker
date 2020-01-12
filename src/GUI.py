@@ -5,9 +5,9 @@ import os
 
 from tabulate import tabulate
 
-from SCTracker.database import database
-from SCTracker.replayloader import *
-from SCTracker.constants import *
+from src.database import database
+from src.replayloader import *
+from src.constants import *
 
 class GUI():
     font = 'Arial 12'
@@ -20,8 +20,7 @@ class GUI():
     def __init__(self, active_folder):
         self.active_folder = active_folder
         self.set_layout()
-        self.run()
-    
+        self.run()    
 
     def set_layout(self):
         TextLabel = lambda key: sg.Text(text=key, key=key, size=(self.first_column_width, self.row_height), font=self.font, justification='right')
@@ -30,7 +29,7 @@ class GUI():
         EnterButton = lambda key: sg.Button(key, size=(self.button_width, self.row_height), key=key, font=self.font, bind_return_key=True)
         MultiLineInput = lambda key: sg.Multiline(key=key, size=(self.second_column_width - 2, 3), font=self.font, autoscroll=True)
 
-        self.layout = [
+        left_column = sg.Column([
             [TextLabel(gamenumber), SingleLineInput(gamenumber + 'input')],
             [TextLabel(gamedatetime), SingleLineInput(gamedatetime + 'input')],
             [TextLabel(playername), SingleLineInput(playername + 'input')],
@@ -57,11 +56,21 @@ class GUI():
             [EmptySpace(self.first_column_width), EnterButton('commit replay'), EnterButton('load latest replay')],
             [EmptySpace(self.first_column_width), EnterButton('add build'), EnterButton('set replay folder'), EnterButton('set player id')],
             [EmptySpace(self.first_column_width), EnterButton('view builds'), EnterButton('view replay folder'), EnterButton('view scripts')]
+        ])
+
+        output_window = sg.Column([
+            [TextLabel('Output Window')],
+            [sg.Output(size=(50, 40), font=self.font)]
+        ])
+
+        self.layout = [
+            [left_column, output_window]
         ]
     
 
     def run(self):
         self.window = sg.Window(appname, self.layout)
+
         while True:
             event, values = self.window.read()
             if event is None:
@@ -95,11 +104,12 @@ class GUI():
 
 
     def commit_replay(self, values):
+        print("committing replay to database")
         self.database.add_replay_entry(values)
 
     
     def load_latest_replay(self, values):
-        print('load latest replay')
+        print('load latest replay from folder')
         self.clear(values)
         
         try:
@@ -112,7 +122,6 @@ class GUI():
                 game_count = self.database.get_data('SELECT COUNT(gamenumber) FROM ' + database.replays_table)[0][0] + 1
                 values = {gamenumber + 'input': game_count}
                 values.update(newest_replay_data(directory, player_id, player_name))
-
                 self.window.fill(values)
         
         except Exception as e:
