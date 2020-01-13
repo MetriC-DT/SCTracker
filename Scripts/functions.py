@@ -39,3 +39,12 @@ def remove_database_copy(connection, cursor, filename):
     cursor.close()
     connection.close()
     os.remove(os.path.join(this_directory, filename + '.db'))
+
+
+def autolabel(ax, rects, labels):
+    if len(rects) != len(labels):
+        return None
+    else:
+        for i in range(len(rects)):
+            height = rects[i].get_height()
+            ax.text(rects[i].get_x() + rects[i].get_width()/2, height, labels[i], ha='center', va='bottom')

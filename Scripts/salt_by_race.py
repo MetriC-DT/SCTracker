@@ -11,20 +11,19 @@ c = connection.cursor()
 salty_players = dict(functions.execute_file('salt.sql', c))
 functions.remove_database_copy(connection, c, 'salt_by_race.py')
 
-plt.rcdefaults()
 fig, ax = plt.subplots()
+plt.rcdefaults()
 
 races = salty_players.keys()
 y_pos = np.arange(len(races))
-salt = salty_players.values()
+salt = list(salty_players.values())
 
-ax.barh(y_pos, salt, align='center')
-ax.set_yticks(y_pos)
-ax.set_yticklabels(races)
-ax.set_xlabel('Percent of race salty')
+bars = ax.bar(y_pos, salt, align='center')
+ax.set_xticks(y_pos)
+ax.set_xticklabels(races)
+ax.set_ylabel('Percent of race salty')
 ax.set_title('Salt By Race')
 
-for i, v in enumerate(salt):
-    ax.text(v + 1, i, str(v)[:5] + '%', va='center')
+functions.autolabel(ax, bars, [str(val)[:5] + '%' for val in salt])
 
 plt.show()

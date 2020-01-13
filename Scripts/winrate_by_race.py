@@ -17,13 +17,12 @@ races = wins.keys()
 y_pos = np.arange(len(races))
 winrate = wins.values()
 
-ax.barh(y_pos, winrate, align='center')
-ax.set_yticks(y_pos)
-ax.set_yticklabels(races)
-ax.set_xlabel('Winrate')
+bars = ax.bar(y_pos, winrate, align='center')
+ax.set_xticks(y_pos)
+ax.set_xticklabels(races)
+ax.set_ylabel('Winrate')
 ax.set_title('My Winrate By Opponent Race')
 
-for i, v in enumerate(winrate):
-    ax.text(v + 1, i, str(v)[:5] + '%', va='center')
+functions.autolabel(ax, bars, [str(val)[:5] + '%' for val in winrate])
 
 plt.show()

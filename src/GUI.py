@@ -158,11 +158,11 @@ class GUI():
     def view_builds(self):
         print('showing build list')
         execute_string = """
-            SELECT number, opponent, description, SUM(win)/COUNT(number) AS winrate
+            SELECT number, opponent AS race, description, SUM(win)/COUNT(number) AS winrate, COUNT(number) AS usage
             FROM builds, replays
             WHERE number=gameplan AND (win=1 OR win=0)
             GROUP BY number
-            ORDER BY opponent, number, winrate;
+            ORDER BY race, usage desc, winrate desc;
         """
         data = self.database.get_data(execute_string)
         headers = [description[0] for description in self.database.cursor.description]
