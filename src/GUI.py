@@ -162,7 +162,7 @@ class GUI():
             FROM builds, replays
             WHERE number=gameplan AND (win=1 OR win=0)
             GROUP BY number
-            ORDER BY race, usage desc, winrate desc;
+            ORDER BY race, usage desc, winrate desc, number desc;
         """
         data = self.database.get_data(execute_string)
         headers = [description[0] for description in self.database.cursor.description]

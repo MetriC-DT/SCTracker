@@ -1,8 +1,3 @@
-DROP TABLE IF EXISTS saltyterran;
-DROP TABLE IF EXISTS saltyprotoss;
-DROP TABLE IF EXISTS saltyzerg;
-DROP TABLE IF EXISTS salttable;
-
 CREATE TABLE saltyterran AS
 SELECT replays.opponentrace AS saltyterran
 FROM replays
@@ -39,8 +34,3 @@ SELECT saltyrace, saltycount * 100.0 / COUNT(opponentrace)
 FROM salttable, replays
 WHERE saltyrace = opponentrace
 GROUP BY opponentrace;
-
-DROP TABLE IF EXISTS saltyterran;
-DROP TABLE IF EXISTS saltyprotoss;
-DROP TABLE IF EXISTS saltyzerg;
-DROP TABLE IF EXISTS salttable;
