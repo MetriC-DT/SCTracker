@@ -52,8 +52,8 @@ class GUI():
             [TextLabel(tags), SingleLineInput(tags + 'input')],
             [TextLabel(length), SingleLineInput(length + 'input')],
             [TextLabel(notes), MultiLineInput(notes + 'input')],
-            [TextLabel(path), SingleLineInput(path + 'input'), sg.FileBrowse(target='pathinput', size=(self.button_width, self.row_height), font=self.font, file_types=(('SC2Replay files', '*.SC2Replay'),))],
-            [EmptySpace(self.first_column_width), EnterButton('commit replay'), EnterButton('load latest replay')],
+            [TextLabel(path), SingleLineInput(path + 'input'), sg.FileBrowse(key='filebrowse', target='pathinput', size=(self.button_width, self.row_height), font=self.font, file_types=(('SC2Replay files', '*.SC2Replay'),))],
+            [EmptySpace(self.first_column_width), EnterButton('commit replay'), EnterButton('load latest replay'), EnterButton('load selected replay')],
             [EmptySpace(self.first_column_width), EnterButton('add build'), EnterButton('set replay folder'), EnterButton('set player id')],
             [EmptySpace(self.first_column_width), EnterButton('view builds'), EnterButton('view replay folder'), EnterButton('view scripts')]
         ])
@@ -87,6 +87,8 @@ class GUI():
             self.commit_replay(values)
         elif event == 'load latest replay':
             self.load_latest_replay(values)
+        elif event == 'load selected replay':
+            self.load_selected_replay(values)
         elif event == 'add build':
             self.add_build()
         elif event == 'view builds':
@@ -102,6 +104,26 @@ class GUI():
         else:
             print(event, values)
 
+    def load_selected_replay(self, values):
+        file_location = values[path + 'input']
+        if('.SC2Replay' in file_location):
+            self.clear(values)
+            try:
+                with open(config_file, 'r') as f:
+                    config = json.load(f)
+                    player_id = config[player_id_key]
+                    player_name = config[player_name_key]
+                    
+                    game_count = self.database.get_data('SELECT COUNT(gamenumber) FROM ' + database.replays_table)[0][0] + 1
+                    values = {gamenumber + 'input': game_count}
+                    values.update(replay_data(file_location, player_id, player_name))
+                    self.window.fill(values)
+            
+            except Exception as e:
+                sg.PopupError('Make sure you have both your replay folder and your player id set\nError:', e)
+
+        else:
+            sg.PopupError('Invalid Replay File')
 
     def commit_replay(self, values):
         print("committing replay to database")

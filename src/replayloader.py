@@ -71,6 +71,20 @@ def newest_replay_data(source_path, player_id, player_name):
     values.append(get_length(replay))
     return dict(values)
 
+def replay_data(filepath, player_id, player_name):
+    replay = sc2reader.load_replay(filepath)
+
+    if replay.real_type != '1v1':
+        sg.PopupError('Not designed for non-1v1 games!', title='Replay Type Error')
+        return dict()
+    
+    values = list()
+    values.append(get_datetime(replay))
+    values.extend(get_players(replay, player_id, player_name))
+    values.append(get_path(replay))
+    values.append(get_map(replay))
+    values.append(get_length(replay))
+    return dict(values)
 
 def get_datetime(replay):
     key = gamedatetime + 'input'
