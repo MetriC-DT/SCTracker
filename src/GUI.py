@@ -105,7 +105,7 @@ class GUI():
             print(event, values)
 
     def load_selected_replay(self, values):
-        file_location = values[path + 'input']
+        file_location = sg.PopupGetFile('Select a SC2Replay file to load');
         if('.SC2Replay' in file_location):
             self.clear(values)
             try:
