@@ -106,7 +106,7 @@ class GUI():
 
     def load_selected_replay(self, values):
         file_location = sg.PopupGetFile('Select a SC2Replay file to load');
-        if('.SC2Replay' in file_location):
+        if(file_location and '.SC2Replay' in file_location):
             self.clear(values)
             try:
                 with open(config_file, 'r') as f:
