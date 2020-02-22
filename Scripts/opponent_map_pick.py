@@ -56,8 +56,8 @@ protoss_bar = ax.bar(x - width, [(value or 0) for value in protoss_data], width,
 terran_bar = ax.bar(x, [(value or 0) for value in terran_data], width, label='Terran', color='tab:red')
 zerg_bar = ax.bar(x + width, [(value or 0) for value in zerg_data], width, label='Zerg', color='tab:purple')
 
-ax.set_ylabel('My Winrate')
-ax.set_title('Winrate by Map')
+ax.set_ylabel('Number of times')
+ax.set_title('Maps Played')
 ax.set_xticks(x)
 ax.set_xticklabels(maps_list)
 ax.legend()
