@@ -11,6 +11,7 @@ functions.remove_database_copy(connection, cursor, 'winrate_by_map.py')
 
 maps_list = [row[0] for row in result]
 
+# removes duplicates
 for i in range(len(maps_list) - 1, 0, -1):
     if maps_list.count(maps_list[i]) > 1:
         maps_list.pop(i)
@@ -36,7 +37,6 @@ for data in bar_data:
         terran_data.append(data[1])
     elif data[0] == 'Z':
         zerg_data.append(data[1])
-
 
 fig = plt.figure()
 ax = fig.add_subplot()
