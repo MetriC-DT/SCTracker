@@ -11,6 +11,7 @@ c = connection.cursor()
 result = functions.execute_file('opponent_map.sql', c)
 maps = functions.execute_file('maps.sql', c)
 maps_list = [row[0] for row in maps]
+functions.remove_database_copy(connection, c, 'opponent_map.py')
 
 protoss_data = list()
 terran_data = list()
