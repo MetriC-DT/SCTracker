@@ -18,25 +18,23 @@ for i in range(len(maps_list) - 1, 0, -1):
 
 races = ['P', 'T', 'Z']
 
-bar_data = [row[1:] for row in result]
+protoss_dict = dict()
+terran_dict = dict()
+zerg_dict = dict()
 
-# gets the data to be groups of three, so it matches the PTZ format
-race_index = 0
-for i in range(len(bar_data)):
-    if bar_data[i][0] != races[race_index]:
-        bar_data.insert(i, (races[race_index], None))
-    race_index = (race_index + 1) % len(races)
+for mapname in maps_list:
+	protoss_dict[mapname] = [entry[2] for entry in result if entry[0] == mapname and entry[1] == 'P']
+	terran_dict[mapname] = [entry[2] for entry in result if entry[0] == mapname and entry[1] == 'T']
+	zerg_dict[mapname] = [entry[2] for entry in result if entry[0] == mapname and entry[1] == 'Z']
 
 protoss_data = list()
 terran_data = list()
 zerg_data = list()
-for data in bar_data:
-    if data[0] == 'P':
-        protoss_data.append(data[1])
-    elif data[0] == 'T':
-        terran_data.append(data[1])
-    elif data[0] == 'Z':
-        zerg_data.append(data[1])
+
+for mapname in maps_list:
+	protoss_data.append(protoss_dict[mapname][0] if len(protoss_dict[mapname]) != 0 else None)
+	terran_data.append(terran_dict[mapname][0] if len(terran_dict[mapname]) != 0 else None)
+	zerg_data.append(zerg_dict[mapname][0] if len(zerg_dict[mapname]) != 0 else None)
 
 fig = plt.figure()
 ax = fig.add_subplot()
@@ -47,15 +45,15 @@ protoss_bar = ax.bar(x - width, [(value or 0) for value in protoss_data], width,
 terran_bar = ax.bar(x, [(value or 0) for value in terran_data], width, label='Terran', color='tab:red')
 zerg_bar = ax.bar(x + width, [(value or 0) for value in zerg_data], width, label='Zerg', color='tab:purple')
 
-ax.set_ylabel('My Winrate')
+ax.set_ylabel('Winrate %')
 ax.set_title('Winrate by Map')
 ax.set_xticks(x)
 ax.set_xticklabels(maps_list)
 ax.legend()
 
-functions.autolabel(ax, protoss_bar, [str(value)[:5] if value is not None else '?' for value in protoss_data])
-functions.autolabel(ax, terran_bar, [str(value)[:5] if value is not None else '?' for value in terran_data])
-functions.autolabel(ax, zerg_bar, [str(value)[:5] if value is not None else '?' for value in zerg_data])
+functions.autolabel(ax, protoss_bar, [str(value)[:5] if value is not None else 'N/A' for value in protoss_data])
+functions.autolabel(ax, terran_bar, [str(value)[:5] if value is not None else 'N/A' for value in terran_data])
+functions.autolabel(ax, zerg_bar, [str(value)[:5] if value is not None else 'N/A' for value in zerg_data])
 
 plt.tight_layout()
 fig.canvas.manager.full_screen_toggle()

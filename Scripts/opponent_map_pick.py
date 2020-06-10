@@ -62,9 +62,9 @@ ax.set_xticks(x)
 ax.set_xticklabels(maps_list)
 ax.legend()
 
-functions.autolabel(ax, protoss_bar, [str(value)[:5] if value is not None else '?' for value in protoss_data])
-functions.autolabel(ax, terran_bar, [str(value)[:5] if value is not None else '?' for value in terran_data])
-functions.autolabel(ax, zerg_bar, [str(value)[:5] if value is not None else '?' for value in zerg_data])
+functions.autolabel(ax, protoss_bar, [str(value)[:5] if value is not None else 'N/A' for value in protoss_data])
+functions.autolabel(ax, terran_bar, [str(value)[:5] if value is not None else 'N/A' for value in terran_data])
+functions.autolabel(ax, zerg_bar, [str(value)[:5] if value is not None else 'N/A' for value in zerg_data])
 
 plt.tight_layout()
 fig.canvas.manager.full_screen_toggle()
