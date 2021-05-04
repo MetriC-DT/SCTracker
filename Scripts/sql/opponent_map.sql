@@ -1,11 +1,11 @@
 SELECT map, opponentrace, COUNT(map)
 FROM replays
-WHERE map=="Eternal Empire LE"
-OR map=="Ever Dream LE"
-OR map=="Deathaura LE"
-OR map=="Ice and Chrome LE"
-OR map=="Pillars of Gold LE"
-OR map=="Submarine LE"
-OR map=="Golden Wall LE"
+WHERE map=="2000 Atmospheres LE"
+OR map=="Beckett Industries LE"
+OR map=="Blackburn LE"
+OR map=="Jagannatha LE"
+OR map=="Lightshade LE LE"
+OR map=="Oxide LE"
+OR map=="Romanticide LE"
 GROUP BY opponentrace, map
 ORDER BY opponentrace, map;
