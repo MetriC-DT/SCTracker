@@ -5,7 +5,7 @@ WHERE (win=1.0 OR win=0.0) AND
 OR map=="Beckett Industries LE"
 OR map=="Blackburn LE"
 OR map=="Jagannatha LE"
-OR map=="Lightshade LE LE"
+OR map=="Lightshade LE"
 OR map=="Oxide LE"
 OR map=="Romanticide LE")
 GROUP BY map, opponentrace
